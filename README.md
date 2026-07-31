@@ -45,8 +45,8 @@ React, so crawlers see it in the raw HTML response:
 - **WebSite** JSON-LD ("Djani Terminal") pointing `about` at that `@id`
 - a `<noscript>` two-paragraph bio
 
-`src/commands.js` has TODO comments for the Academia.edu and X profile URLs — add
-them to `contact` and to the `sameAs` array in `index.html` when confirmed.
+`src/commands.js` still has a TODO for the X (Twitter) profile URL — add it to
+`contact` and to the `sameAs` array in `index.html` when confirmed.
 
 ## The OG image
 

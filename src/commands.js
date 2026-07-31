@@ -17,7 +17,8 @@ export const WIRE_URL = 'https://djaniefendi.news'
 export const ARCHIVE_URL = 'https://djaniefendi.org'
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/djaniefendi'
 export const GITHUB_URL = 'https://github.com/djaniefendi'
-// TODO: add the Academia.edu profile URL once confirmed.
+export const YOUTUBE_URL = 'https://www.youtube.com/channel/UCTaaBk2gjTEKiCJu3Wr4WEg'
+export const ACADEMIA_URL = 'https://independent.academia.edu/DjaniEfendi'
 // TODO: add the X (Twitter) profile URL once confirmed.
 
 /** A plain amber line. */
@@ -120,6 +121,8 @@ export const commands = {
     run: () => [
       link('linkedin.com/in/djaniefendi', LINKEDIN_URL, '  linkedin   '),
       link('github.com/djaniefendi', GITHUB_URL, '  github     '),
+      link('youtube.com/channel/UCTaaBk2gjTEKiCJu3Wr4WEg', YOUTUBE_URL, '  youtube    '),
+      link('independent.academia.edu/DjaniEfendi', ACADEMIA_URL, '  academia   '),
       link(WIRE_URL, WIRE_URL, '  wire       '),
     ],
   },
