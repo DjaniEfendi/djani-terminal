@@ -1,0 +1,13 @@
+# Cloudflare Pages redirects for djaniefendi.com.
+#
+# The root is deliberately NOT redirected — "/" serves this terminal site.
+#
+# The Wire lived on this domain until it moved to djaniefendi.news. It was a
+# single-page app with no sub-routes (no /essays, /notes or similar ever
+# existed), so there are no article paths to forward. The one leftover worth
+# keeping alive is its Open Graph image: social cards from links shared while
+# the Wire was on this domain still reference djaniefendi.com/og-image.png,
+# and this site has no such asset, so without the rule below those previews
+# would 404 on re-scrape.
+
+/og-image.png  https://djaniefendi.news/og-image.png  301
