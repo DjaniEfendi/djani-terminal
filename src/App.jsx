@@ -71,6 +71,7 @@ export default function App() {
   const [input, setInput] = useState('')
   const [history, setHistory] = useState([])
   const [histIndex, setHistIndex] = useState(null)
+  const [busy, setBusy] = useState(false)
 
   const inputRef = useRef(null)
   const screenRef = useRef(null)
@@ -81,6 +82,18 @@ export default function App() {
       ...prev,
       ...newLines.map((segs) => ({ id: nextId.current++, segs })),
     ])
+  }, [])
+
+  // Print one line and hand back its id, so an animated command can keep
+  // rewriting it in place (a counter, a progress line) rather than appending.
+  const printLine = useCallback((segs) => {
+    const id = nextId.current++
+    setLines((prev) => [...prev, { id, segs }])
+    return id
+  }, [])
+
+  const updateLine = useCallback((id, segs) => {
+    setLines((prev) => prev.map((l) => (l.id === id ? { ...l, segs } : l)))
   }, [])
 
   // Boot sequence. Starts from a clean screen so React's development-mode
@@ -139,6 +152,8 @@ export default function App() {
 
   const runCommand = useCallback(
     (raw) => {
+      if (busy) return
+
       const entry = raw.trim()
       push([
         [
@@ -164,9 +179,29 @@ export default function App() {
         setLines([])
         return
       }
+
+      // Animated commands drive the screen themselves over time; input is
+      // locked until they finish so two runs can't interleave.
+      if (cmd.play) {
+        setBusy(true)
+        Promise.resolve(
+          cmd.play({
+            print: printLine,
+            update: updateLine,
+            sleep,
+            reduced: prefersReducedMotion(),
+          })
+        ).finally(() => {
+          push([[{ t: '', tone: 'amber' }]])
+          setBusy(false)
+          inputRef.current?.focus()
+        })
+        return
+      }
+
       push([...cmd.run(), [{ t: '', tone: 'amber' }]])
     },
-    [push]
+    [busy, push, printLine, updateLine]
   )
 
   const onKeyDown = (e) => {
@@ -255,6 +290,7 @@ export default function App() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={onKeyDown}
+                    disabled={busy}
                     spellCheck="false"
                     autoComplete="off"
                     autoCapitalize="off"
@@ -273,7 +309,12 @@ export default function App() {
 
         <div className="chips">
           {commandNames.map((name) => (
-            <button key={name} className="chip" onClick={() => runCommand(name)}>
+            <button
+              key={name}
+              className="chip"
+              disabled={busy}
+              onClick={() => runCommand(name)}
+            >
               {name}
             </button>
           ))}

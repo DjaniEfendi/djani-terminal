@@ -132,6 +132,66 @@ export const commands = {
     clears: true,
     run: () => [],
   },
+
+  /*
+   * Hidden — `hidden: true` keeps it out of `help`, the chip row and
+   * tab-completion, but it still runs if you know to type it.
+   *
+   * Unlike the others this one animates, so it supplies `play(ctx)` instead of
+   * `run()`. ctx gives it print/update/sleep and a `reduced` flag.
+   */
+  who: {
+    hidden: true,
+    description: 'if not you, then who?',
+    play: async (ctx) => {
+      const START = 8214067090
+      const count = (n) => 'candidates remaining: ' + n.toLocaleString('en-US')
+
+      const finale = () => {
+        ctx.print([{ t: '', tone: 'amber' }])
+        ctx.print([{ t: 'if not you,', tone: 'amber' }])
+        return ctx.sleep(420).then(() => {
+          ctx.print([{ t: 'then who?', tone: 'amber' }])
+          return ctx.sleep(760).then(() => {
+            ctx.print([{ t: '', tone: 'amber' }])
+            ctx.print([{ t: 'you.', tone: 'you' }])
+          })
+        })
+      }
+
+      if (ctx.reduced) {
+        ctx.print([{ t: 'SCANNING POPULATION — 8.2B SIGNATURES', tone: 'dim' }])
+        ctx.print([{ t: count(0), tone: 'dim' }])
+        ctx.print([{ t: 'NONE QUALIFIED.', tone: 'bright' }])
+        ctx.print([{ t: '', tone: 'amber' }])
+        ctx.print([{ t: 'if not you,', tone: 'amber' }])
+        ctx.print([{ t: 'then who?', tone: 'amber' }])
+        ctx.print([{ t: '', tone: 'amber' }])
+        ctx.print([{ t: 'you.', tone: 'you' }])
+        return
+      }
+
+      ctx.print([{ t: 'SCANNING POPULATION — 8.2B SIGNATURES', tone: 'dim' }])
+      await ctx.sleep(420)
+
+      // Count down to zero over roughly two seconds. The exponent eases the
+      // fall so the digits churn visibly instead of dropping linearly.
+      const id = ctx.print([{ t: count(START), tone: 'dim' }])
+      const FRAMES = 46
+      const DURATION = 2000
+      for (let i = 1; i <= FRAMES; i++) {
+        await ctx.sleep(DURATION / FRAMES)
+        const progress = i / FRAMES
+        const left = i === FRAMES ? 0 : Math.round(START * (1 - Math.pow(progress, 1.7)))
+        ctx.update(id, [{ t: count(left), tone: 'dim' }])
+      }
+
+      await ctx.sleep(300)
+      ctx.print([{ t: 'NONE QUALIFIED.', tone: 'bright' }])
+      await ctx.sleep(1000)
+      await finale()
+    },
+  },
 }
 
 /** Command names offered to tab-completion and the chip row. */
