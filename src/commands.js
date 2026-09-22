@@ -258,6 +258,8 @@ export const bootSequence = [
   },
   { segs: [{ t: '└──────────────────────────────┘', tone: 'amber' }], instant: true },
   { segs: [{ t: '', tone: 'amber' }], instant: true },
+  { segs: link('The Meskhetian Turks', DOCUMENTARY_URL, 'project  '), instant: true },
+  { segs: [{ t: '', tone: 'amber' }], instant: true },
   {
     segs: [
       { t: 'type ', tone: 'dim' },
