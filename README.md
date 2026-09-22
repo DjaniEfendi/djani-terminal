@@ -50,7 +50,8 @@ The production build also includes:
 - a visible project link to The Meskhetian Turks documentary inside the terminal's
   opening screen, prerendered into the production HTML without requiring a command
   or JavaScript. React hydrates that screen and animates the reserved boot rows;
-  `clear` removes the opening output and `projects` prints the full description.
+  `clear` removes the opening output and `roots` explains Djani's Meskhetian Turkish
+  heritage and links to the documentary for first-time readers.
 - a `<noscript>` two-paragraph bio
 
 Prerendering runs only during `npm run build`. Cloudflare still serves static

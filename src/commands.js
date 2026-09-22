@@ -99,12 +99,12 @@ export const commands = {
     ],
   },
 
-  projects: {
-    description: 'documentary and creative work',
+  roots: {
+    description: 'where I come from',
     run: () => [
       head('The Meskhetian Turks'),
-      line('An interactive documentary I created about the history and heritage'),
-      line('of the Ahıska people.'),
+      line('I’m a Meskhetian Turk, part of a Turkish-speaking community whose ancestral homeland is in southern Georgia, in the Caucasus.'),
+      line('I created this documentary to tell our story—from life in our homeland to forced displacement and the communities we’ve built around the world.'),
       blank(),
       link('Explore the documentary', DOCUMENTARY_URL),
     ],
@@ -258,7 +258,7 @@ export const bootSequence = [
   },
   { segs: [{ t: '└──────────────────────────────┘', tone: 'amber' }], instant: true },
   { segs: [{ t: '', tone: 'amber' }], instant: true },
-  { segs: link('The Meskhetian Turks', DOCUMENTARY_URL, 'project  '), instant: true },
+  { segs: link('The Meskhetian Turks', DOCUMENTARY_URL, 'roots  '), instant: true },
   { segs: [{ t: '', tone: 'amber' }], instant: true },
   {
     segs: [
