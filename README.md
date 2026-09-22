@@ -20,7 +20,8 @@ npm run preview  # serve the production build
 | `src/commands.js`   | **All site content** — the command registry and the boot sequence |
 | `src/App.jsx`       | Terminal shell: boot animation, input, history, autocomplete       |
 | `src/styles.css`    | Amber phosphor theme, scanlines, glow                              |
-| `index.html`        | Static SEO, visible featured project, and noscript bio             |
+| `index.html`        | Static SEO, terminal prerender target, and noscript bio            |
+| `src/entry-server.jsx`, `scripts/prerender.mjs` | Build-time terminal HTML using the same React app |
 | `public/`           | `robots.txt`, `sitemap.xml`, `og.png`, `favicon.svg`              |
 
 ### Editing content
@@ -43,9 +44,18 @@ React, so crawlers see it in the raw HTML response:
   `@id` is the shared entity anchor across djaniefendi.com, djaniefendi.news and
   djaniefendi.org. Do not change it.
 - **WebSite** JSON-LD ("Djani Terminal") pointing `about` at that `@id`
-- a visible project link to The Meskhetian Turks documentary, available in the
-  initial HTML without running a terminal command or JavaScript
+
+The production build also includes:
+
+- a visible project link to The Meskhetian Turks documentary inside the terminal's
+  opening screen, prerendered into the production HTML without requiring a command
+  or JavaScript. React hydrates that screen and animates the reserved boot rows;
+  `clear` removes the opening output and `roots` explains Djani's Meskhetian Turkish
+  heritage and links to the documentary for first-time readers.
 - a `<noscript>` two-paragraph bio
+
+Prerendering runs only during `npm run build`. Cloudflare still serves static
+files from `dist`; `dist-ssr` is a temporary build output, not a production server.
 
 `src/commands.js` still has a TODO for the X (Twitter) profile URL — add it to
 `contact` and to the `sameAs` array in `index.html` when confirmed.

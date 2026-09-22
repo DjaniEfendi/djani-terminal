@@ -31,6 +31,13 @@ function reveal(segs, n) {
   return out.length ? out : [{ t: '', tone: segs[0]?.tone ?? 'amber' }]
 }
 
+// Render instant lines (including the project link) into the initial HTML.
+// Reserve the other rows so the typewriter fills them without shifting the link.
+const initialLines = () => bootSequence.map((l, id) => ({
+  id,
+  segs: l.instant ? l.segs : reveal(l.segs, 0),
+}))
+
 /** Longest common prefix of a list of strings. */
 function commonPrefix(list) {
   if (!list.length) return ''
@@ -66,7 +73,7 @@ function Line({ segs }) {
 }
 
 export default function App() {
-  const [lines, setLines] = useState([])
+  const [lines, setLines] = useState(initialLines)
   const [booted, setBooted] = useState(false)
   const [input, setInput] = useState('')
   const [history, setHistory] = useState([])
@@ -75,7 +82,7 @@ export default function App() {
 
   const inputRef = useRef(null)
   const screenRef = useRef(null)
-  const nextId = useRef(0)
+  const nextId = useRef(bootSequence.length)
 
   const push = useCallback((newLines) => {
     setLines((prev) => [
@@ -96,31 +103,29 @@ export default function App() {
     setLines((prev) => prev.map((l) => (l.id === id ? { ...l, segs } : l)))
   }, [])
 
-  // Boot sequence. Starts from a clean screen so React's development-mode
-  // double-invocation of effects can't leave a half-typed first run behind.
+  // Reset the reserved boot rows so development StrictMode cannot leave a
+  // half-typed first run behind. Instant lines remain visible throughout.
   useEffect(() => {
-    setLines([])
+    setLines(initialLines())
+    setBooted(false)
 
     if (prefersReducedMotion()) {
-      push(bootSequence.map((l) => l.segs))
+      setLines(bootSequence.map((l, id) => ({ id, segs: l.segs })))
       setBooted(true)
       return
     }
 
     let cancelled = false
     const run = async () => {
-      for (const bootLine of bootSequence) {
+      for (const [id, bootLine] of bootSequence.entries()) {
         if (cancelled) return
-        const id = nextId.current++
 
         if (bootLine.instant) {
-          setLines((prev) => [...prev, { id, segs: bootLine.segs }])
           await sleep(40)
           continue
         }
 
         const total = segLength(bootLine.segs)
-        setLines((prev) => [...prev, { id, segs: reveal(bootLine.segs, 0) }])
         for (let n = 1; n <= total; n++) {
           if (cancelled) return
           setLines((prev) =>
@@ -142,7 +147,7 @@ export default function App() {
     return () => {
       cancelled = true
     }
-  }, [push])
+  }, [])
 
   // Keep the newest output in view.
   useLayoutEffect(() => {
@@ -152,7 +157,7 @@ export default function App() {
 
   const runCommand = useCallback(
     (raw) => {
-      if (busy) return
+      if (!booted || busy) return
 
       const entry = raw.trim()
       push([
@@ -201,7 +206,7 @@ export default function App() {
 
       push([...cmd.run(), [{ t: '', tone: 'amber' }]])
     },
-    [busy, push, printLine, updateLine]
+    [booted, busy, push, printLine, updateLine]
   )
 
   const onKeyDown = (e) => {
@@ -312,7 +317,7 @@ export default function App() {
             <button
               key={name}
               className="chip"
-              disabled={busy}
+              disabled={!booted || busy}
               onClick={() => runCommand(name)}
             >
               {name}

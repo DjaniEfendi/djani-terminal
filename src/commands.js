@@ -87,6 +87,17 @@ export const commands = {
     ],
   },
 
+  roots: {
+    description: 'where I come from',
+    run: () => [
+      head('The Meskhetian Turks'),
+      line('I’m a Meskhetian Turk, part of a Turkish-speaking community whose ancestral homeland is in southern Georgia, in the Caucasus.'),
+      line('I created this documentary to tell our story—from life in our homeland to forced displacement and the communities we’ve built around the world.'),
+      blank(),
+      link('Explore the documentary', DOCUMENTARY_URL),
+    ],
+  },
+
   research: {
     description: 'papers and essays',
     run: () => [
@@ -96,26 +107,6 @@ export const commands = {
       item('Brexit and supply-chain strategy'),
       item('bitcoin'),
       item('art market auction methods'),
-    ],
-  },
-
-  projects: {
-    description: 'documentary and creative work',
-    run: () => [
-      head('The Meskhetian Turks'),
-      line('An interactive documentary I created about the history and heritage'),
-      line('of the Ahıska people.'),
-      blank(),
-      link('Explore the documentary', DOCUMENTARY_URL),
-    ],
-  },
-
-  stack: {
-    description: 'how this site is put together',
-    run: () => [
-      line('react + vite SPA'),
-      line('cloudflare pages, auto-deploy from github'),
-      line('pre-rendered meta + Person JSON-LD'),
     ],
   },
 
@@ -257,6 +248,8 @@ export const bootSequence = [
     instant: true,
   },
   { segs: [{ t: '└──────────────────────────────┘', tone: 'amber' }], instant: true },
+  { segs: [{ t: '', tone: 'amber' }], instant: true },
+  { segs: link('The Meskhetian Turks', DOCUMENTARY_URL, 'roots  '), instant: true },
   { segs: [{ t: '', tone: 'amber' }], instant: true },
   {
     segs: [
