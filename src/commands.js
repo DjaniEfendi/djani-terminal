@@ -87,18 +87,6 @@ export const commands = {
     ],
   },
 
-  research: {
-    description: 'papers and essays',
-    run: () => [
-      dim('selected work (Academia.edu):'),
-      blank(),
-      item('sports economics'),
-      item('Brexit and supply-chain strategy'),
-      item('bitcoin'),
-      item('art market auction methods'),
-    ],
-  },
-
   roots: {
     description: 'where I come from',
     run: () => [
@@ -110,12 +98,15 @@ export const commands = {
     ],
   },
 
-  stack: {
-    description: 'how this site is put together',
+  research: {
+    description: 'papers and essays',
     run: () => [
-      line('react + vite SPA'),
-      line('cloudflare pages, auto-deploy from github'),
-      line('pre-rendered meta + Person JSON-LD'),
+      dim('selected work (Academia.edu):'),
+      blank(),
+      item('sports economics'),
+      item('Brexit and supply-chain strategy'),
+      item('bitcoin'),
+      item('art market auction methods'),
     ],
   },
 
