@@ -15,6 +15,7 @@
 
 export const WIRE_URL = 'https://djaniefendi.news'
 export const ARCHIVE_URL = 'https://djaniefendi.org'
+export const DOCUMENTARY_URL = 'https://meskhetianturks.com/'
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/djaniefendi'
 export const GITHUB_URL = 'https://github.com/djaniefendi'
 export const YOUTUBE_URL = 'https://www.youtube.com/channel/UCTaaBk2gjTEKiCJu3Wr4WEg'
@@ -95,6 +96,17 @@ export const commands = {
       item('Brexit and supply-chain strategy'),
       item('bitcoin'),
       item('art market auction methods'),
+    ],
+  },
+
+  projects: {
+    description: 'documentary and creative work',
+    run: () => [
+      head('The Meskhetian Turks'),
+      line('An interactive documentary I created about the history and heritage'),
+      line('of the Ahıska people.'),
+      blank(),
+      link('Explore the documentary', DOCUMENTARY_URL),
     ],
   },
 

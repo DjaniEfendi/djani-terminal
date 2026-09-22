@@ -20,7 +20,7 @@ npm run preview  # serve the production build
 | `src/commands.js`   | **All site content** — the command registry and the boot sequence |
 | `src/App.jsx`       | Terminal shell: boot animation, input, history, autocomplete       |
 | `src/styles.css`    | Amber phosphor theme, scanlines, glow                              |
-| `index.html`        | Static SEO — meta, Open Graph, JSON-LD, noscript bio               |
+| `index.html`        | Static SEO, visible featured project, and noscript bio             |
 | `public/`           | `robots.txt`, `sitemap.xml`, `og.png`, `favicon.svg`              |
 
 ### Editing content
@@ -43,6 +43,8 @@ React, so crawlers see it in the raw HTML response:
   `@id` is the shared entity anchor across djaniefendi.com, djaniefendi.news and
   djaniefendi.org. Do not change it.
 - **WebSite** JSON-LD ("Djani Terminal") pointing `about` at that `@id`
+- a visible project link to The Meskhetian Turks documentary, available in the
+  initial HTML without running a terminal command or JavaScript
 - a `<noscript>` two-paragraph bio
 
 `src/commands.js` still has a TODO for the X (Twitter) profile URL — add it to

@@ -29,16 +29,18 @@ body {
 
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* ---------- layout ---------- */
 
 .page {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3vh 16px;
+  padding: 3vh 16px 0;
   /* faint vignette so the screen feels like it is sitting in a dark room */
   background:
     radial-gradient(ellipse at center, rgba(255, 176, 0, 0.045), transparent 62%),
@@ -269,6 +271,37 @@ a.link:focus-visible {
   border-color: rgba(255, 176, 0, 0.7);
   background: rgba(255, 176, 0, 0.1);
   outline: none;
+}
+
+/* ---------- featured project ---------- */
+
+/* This project is static HTML, visible before the terminal boots and without JS. */
+.featured-project {
+  width: calc(100% - 32px);
+  max-width: 820px;
+  margin: 22px auto 3vh;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 176, 0, 0.25);
+}
+
+.featured-project .project-label {
+  color: var(--dim);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+
+.featured-project h2 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.featured-project p {
+  max-width: 70ch;
+  font-size: 13px;
+  margin: 0;
 }
 
 /* ---------- noscript bio ---------- */
